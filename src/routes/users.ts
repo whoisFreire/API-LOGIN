@@ -20,4 +20,32 @@ export async function usersRoutes(app: FastifyInstance) {
 
     return reply.status(201).send()
   })
+
+  app.post('/login', async (request) => {
+    const getUserParamsSchema = z.object({
+      email: z.string(),
+      password: z.string(),
+    })
+
+    const { email, password } = getUserParamsSchema.parse(request.body)
+
+    const data = await knex('users')
+      .where({ email, hash_password: password })
+      .first()
+
+    const returnUserData = z.object({
+      id: z.string().uuid(),
+      email: z.string(),
+      hash_password: z.string(),
+      created_at: z.string(),
+    })
+
+    const user = returnUserData.parse(data)
+
+    return {
+      id: user.id,
+      email: user.email,
+      createdAt: user.created_at,
+    }
+  })
 }
