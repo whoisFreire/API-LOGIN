@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/server.ts"
+    "dev": "NODE_NO_WARNINGS=1 tsx watch src/server.ts"
   },
   "keywords": [],
   "author": "",
